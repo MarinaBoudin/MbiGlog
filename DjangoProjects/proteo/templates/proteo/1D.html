@@ -5,8 +5,9 @@
 <body style="background-color: #262626;">
 	{% load static %}
 	<div class="subdiv" id="principal">
-		<label class="label" for="whatif"><h2 style="text-align: left;margin-left: 5%;">Protein fasta file:</h2></label>
+		<h1 style="text-align: center;color:#333;"> Welcome to the 1D module !</h1>
 		<div class="file choose_file">
+			<label class="label" for="whatif"><h4 style="text-align: left;margin-left: 5%;color:white;margin-top: 1%">Enter the file :  <font size="1">(FORMAT : .fasta)</font></h4></label>
 			{% load static %}
 			<form method="post" enctype="multipart/form-data">
 				{% csrf_token %}

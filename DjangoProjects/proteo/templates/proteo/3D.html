@@ -4,6 +4,7 @@
 <body style="background-color: #262626;">
   {% load static %}
   <div class="subdiv" id="choose_file">
+    <h1 style="text-align: center;color:#333;"> Welcome to the 3D module !</h1>
     <div style="text-align: left;margin:5%;">
       <div id="PDBMMCIF" class="inputdiv">
         <h2 id="button_file" class="toclick"> File </h2>
@@ -15,7 +16,7 @@
           {% load static %}
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="myfile">
+            <input type="file" name="myfile" accept=".fasta,.fasta.txt,.pdb,.cif">
             <button type="submit">Upload</button>
           </form>
         </div>

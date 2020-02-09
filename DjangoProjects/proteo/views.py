@@ -7,6 +7,28 @@ import requests
 from subprocess import run,PIPE
 import sys
 import os
+import subprocess
+
+def findPDBFileFromUnknownSequence(fichier, type_de_sequence):
+    type_de_sequence=type_de_sequence.replace("\n","")
+    fichier = fichier.replace("\n","")
+    find = os.getcwd()+"/DjangoProjects/proteo/find_PDB_ID_from_sequence.sh"
+    shellscript = subprocess.Popen([find,"%s"%(fichier),"%s"%(type_de_sequence)], stdin=subprocess.PIPE)
+    returncode = shellscript.returncode
+    # res=os.system('sh ./find_PDB_ID_from_sequence.sh %s %s'%(fichier,type_de_sequence))
+    print(returncode)
+
+def get_fasta(name):
+    cwd=os.getcwd()
+    path ="../media/"+name
+    findPDBFileFromUnknownSequence(path,"proteine")
+
+
+def clean_media():
+    cwd = os.getcwd();
+    shellscript = subprocess.Popen([cwd+"/DjangoProjects/proteo/clean_media_PDB.sh"], stdin=subprocess.PIPE)
+    returncode = shellscript.returncode
+    return returncode
 
 def handle_uploaded_file(f):
     print("coucou")
@@ -15,19 +37,22 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 # Create your views here.
 def home(request):
+    clean_media()
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(myfile.name.replace(".txt",""), myfile)
         uploaded_file_url = fs.url(filename)
         return render(request, 'proteo/home.html', {'uploaded_file': uploaded_file_url})
     return render(request, "proteo/home.html", locals())
 
 def Onedimension(request):
+    clean_media()
     if request.method == 'POST' and request.FILES['myfile']:
+        os.system('sh ./clean_media_PDB.sh')
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(myfile.name.replace(".txt",""), myfile)
         uploaded_file_url = fs.url(filename)
         return render(request, 'proteo/1D.html', {'uploaded_file': uploaded_file_url})
     return render(request,'proteo/1D.html',locals())
@@ -36,14 +61,14 @@ def Onedimension(request):
 def Twodimension(request):
     return render(request,'proteo/2D.html',locals())
 
-def Pred3Ddimension(request):
-    return render(request,'proteo/Pred_3D.html',locals())
-
 def Threedimension(request):
+    clean_media()
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(myfile.name.replace(".txt",""), myfile)
+        if (".fasta" in myfile.name):
+            get_fasta(filename)
         uploaded_file_url = fs.url(filename)
         return render(request, 'proteo/3D.html', {'uploaded_file': uploaded_file_url})
     return render(request,'proteo/3D.html',locals())

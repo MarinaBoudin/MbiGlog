@@ -3,11 +3,9 @@
 {% block content %}
 
 <BODY onload="init()" style="background-color: #262626;">
-  <script type="text/javascript">
-  let two=document.getElementById("two");
-  two.classList.add("activated");
-  </script>
-  <p>2 DIMENSION</p>
+  <div class="subdiv">
+  <h1 style="text-align: center;color:#333;">Welcome in the 2D module !</h1>
+  <div class="inputdiv" style="width:99%; margin:auto;margin-bottom: 2%;">
   <form action="/ext/" method="post">
     {% csrf_token %}
     Type PDB id:
@@ -16,6 +14,8 @@
     <br><br>
     <input type="submit" value="Export Model from PDB id">
   </form>
+  </div>
+  <div class="inputdiv" style="width:99%; margin:auto;margin-bottom: 2%;">
   <form action="/external/" method="post">
     {% csrf_token %}
     Type PDB id:
@@ -25,6 +25,8 @@
     <br><br>
     <input type="submit" value="Execute PSIPRED Analysis">
   </form>
+</div>
+<div class="inputdiv" style="width:99%; margin:auto;margin-bottom: 2%;">
   <div style="width:560px; margin:auto; position:relative; font-size: 9pt; color: #777777;">
     <canvas id="cv" style="border: 1px solid;" width="560" height="420" ></canvas>
     <div id="tip" style="display:block; color:#ffffff; padding:5px; position:absolute; left:10px; top:370px; background-color:#000000; height:32px; width:250px; border-radius:5px; border:1px solid #777777; font-family:Arial,sans-serif; opacity:0.5; pointer-events:none;">
@@ -33,11 +35,13 @@
     <form action="/model/" method="post">
     <div>
         {% csrf_token %}
-    <input type="text" id ="PDBinp" name="par2" placeholder="Enter PDB id to read model....">
+    <input style="margin-top: 2%;"type="text" id ="PDBinp" name="par2" placeholder="Enter PDB id to read model....">
     <button onclick="loadModel()" id ="PDBbtn">Load</button>
     </div>
     </form>
   </div>
+</div>
+</div>
   {% load static %}
   <script type="text/javascript" src="{% static "proteo/jsc3d.js"%}"></script>
   <script type="text/javascript" src="{% static "proteo/jsc3d.webgl.js"%}"></script>
@@ -71,5 +75,9 @@
     viewer.update();
   }
   </script>
+  <script type="text/javascript">
+  let two=document.getElementById("two");
+  two.classList.add("activated");
+</script>
 </BODY>
 {% endblock %}
