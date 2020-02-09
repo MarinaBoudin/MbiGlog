@@ -2,14 +2,70 @@
 
 
 {% block content %}
-<body style="background-color: black">
+<body style="background-color: white">
   {% load static %}
+  <div class="subdiv" style="margin-bottom: 1%;margin-top: 2%;padding-bottom: 2%;">
+    <h1 style="color:#333;"> Welcome to the view !</h1>
+  </div>
   <div id="visu_3D" class="visualisation">
+    <div id="div_path" class="subdiv" style="display:none;border:solid 2px white;margin-bottom: 1%;margin-top: 2%;padding-bottom: 1%;text-align: center; background-color: #333;color:white;">
+      <h4 style="text-align: center;"> Your current file is : <a id="the_file" style="text-decoration: underline;color:white;">[ my file ]<a></h4>
+    </div>
       <div style="text-align:center;">
+        <font style="color:white;"size="2">(Help and remote controls on the bottom of the web page)</font>
         <p style="color: white"> Entrez l'ID PDB : </p>
-        <input id="pdbidInput" style="opacity:0.7; width:4em;"/>
+        <input class="button" placeholder="PDB ID" id="pdbidInput" style="opacity:0.7; width:4em;"/>
+        <select class="button"id="representation">
+          <option selected="selected" value="cartoon">Cartoon</option>
+          <option value="axes">Axes</option>
+          <option value="ball+stick">Ball and Stick</option>
+          <option value="base">Base</option>
+          <option value="contact">Contact</option>
+          <option value="distance">Distance</option>
+          <option value="helixorient">Helixorient</option>
+          <option value="hyperball">Hyperball</option>
+          <option value="label">Label</option>
+          <option value="licorice">Licorice</option>
+          <option value="line">Line</option>
+          <option value="point">Point</option>
+          <option value="rocket">Rocket</option>
+          <option value="rope">Rope</option>
+          <option value="spacefill">Spacefill</option>
+          <option value="surface">Surface</option>
+          <option value="trace">Trace</option>
+          <option value="tube">Tube</option>
+          <option value="unitcell">Unitcell</option>
+          <option value="validation">Validation</option>
+        </select>
+        <select class="button"style="display: inline;"id="colour">
+          <option selected=true value="structure">PDB colour</option>
+          <option value="white">White</option>
+          <option value="red">Red</option>
+          <option value="orange">Orange</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+        </select>
+        <button class="button" id="plus">+</button>
+        <button class="button" id="clear">Clear</button>
+        <button class="button" id="spin">Spin</button>
+        <button class="button" style="margin:auto;display:none;"id="my_mol">Add my molecule</button>
       </div>
     <div id="visualisation" style="width:auto; height:500px;text-align: center;"></div>
+  </div>
+  <div class="subdiv" style="margin-bottom: 1%;margin-top: 2%;padding-bottom: 2%;text-align: left;">
+    <h1 style="margin-left: 2%;"> Help : </h1>
+    <p>~ Enter you PDB id, choose the representation type, the colour and click on add.</p>
+    <p>~ Click on the button clear to clear the entire view.</p>
+    <p>~ Click on the spin button to make the view spinning.</p>
+    <p id="controls2" style="display:none;">~ Click on the add my molecule button to add your current file.</p>
+    <p id="controls3" style="display:none;">~ Click on [my_file] button to download your current file.</p>
+  </div>
+  <div class="subdiv" style="margin-bottom: 5%;margin-top: 2%;">
+    <h1> Remote controls : </h1>
+    <p style="text-align: center;"> <strong>Double -click</strong> : Full screen ~ <strong>Button +</strong> : add the protein ~ <strong>Button clear</strong> : clear the visusalisation</p>
+    <p style="text-align: center;"> <strong>Scroll</strong> : Zoom/Unzoom ~ <strong>Click and Drag</strong> : Move into space </p>
+    <p style="display:none;text-align: center;" id="controls1"><strong> Button add my molecule </strong> : Add the molecule which was charged</p>
   </div>
   <script src="{% static "proteo/ngl.js"%}">
   /*AS Rose, AR Bradley, Y Valasatava, JM Duarte, A Prlić and PW Rose. NGL viewer: web-based molecular graphics for large complexes. Bioinformatics: bty419, 2018. doi:10.1093/bioinformatics/bty419

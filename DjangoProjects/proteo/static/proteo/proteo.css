@@ -174,3 +174,11 @@ div.file{
   padding-top: 1%;
   padding-bottom: 1%;
 }
+
+.button{
+  display: inline;
+  background-color: #7ab64a;
+  color: Black;
+  width: 100px;
+  border: solid 3px white;
+}

@@ -25,10 +25,12 @@ def get_fasta(name):
 
 
 def clean_media():
+    print("Clean succesful")
     cwd = os.getcwd();
-    shellscript = subprocess.Popen([cwd+"/DjangoProjects/proteo/clean_media_PDB.sh"], stdin=subprocess.PIPE)
-    returncode = shellscript.returncode
-    return returncode
+    if (len([name for name in os.listdir(cwd+"/DjangoProjects/media/") if os.path.isfile(name)])>=10):
+        shellscript = subprocess.Popen([cwd+"/DjangoProjects/proteo/clean_media_PDB.sh"], stdin=subprocess.PIPE)
+        returncode = shellscript.returncode
+        return returncode
 
 def handle_uploaded_file(f):
     print("coucou")
@@ -37,7 +39,6 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 # Create your views here.
 def home(request):
-    clean_media()
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
@@ -47,7 +48,6 @@ def home(request):
     return render(request, "proteo/home.html", locals())
 
 def Onedimension(request):
-    clean_media()
     if request.method == 'POST' and request.FILES['myfile']:
         os.system('sh ./clean_media_PDB.sh')
         myfile = request.FILES['myfile']
@@ -62,7 +62,6 @@ def Twodimension(request):
     return render(request,'proteo/2D.html',locals())
 
 def Threedimension(request):
-    clean_media()
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
@@ -100,3 +99,5 @@ def read(id_pdb):
     data = f.read()
     f.close()
     return data
+
+clean_media()

@@ -28,33 +28,73 @@ function defaultStructureRepresentation( component ){
     } );
 }
 
-function lunch_visualisation(path){
-  var stage;
-  visu = new NGL.Stage("visualisation");
-  visu.viewer.container.addEventListener("dblclick", function () {
-      visu.toggleFullscreen();
+function add(path){
+  stage.loadFile(path).then(function (mol) {
+    mol.setPosition([20, 0, 0]);
+    mol.setRotation([ 2, 0, 0 ]);
+    mol.setScale(0.5);
+    if (get_selection("colour")!=="structure"){
+      mol.addRepresentation(get_selection("representation"), {color: get_selection("colour")});
+    }
+    else{
+      mol.addRepresentation(get_selection("representation"));
+    }
+    stage.autoView();
   });
-  visu.removeAllComponents();
-  if (path=="null"){
-    document.getElementById("pdbidInput").addEventListener("keydown", function(e){
-      if (e.keyCode === 13){
-        var path = "rcsb://"+e.target.value+".mmtf";
-        e.target.value="";
-        e.target.blur();
-        visu.loadFile(path, {defaultRepresentation: true});
-      }
-    })
-  }
-  else{
-    visu.loadFile(path, {defaultRepresentation: true});
-  }
+}
+
+function addProt(){
+  let input=document.getElementById("pdbidInput");
+  var path = "rcsb://"+input.value+".mmtf";
+  input.value="";
+  input.blur();
+  add(path);
+}
+
+function get_selection(id){
+  let selected = document.getElementById(id);
+  var rep = selected.options[selected.selectedIndex].value;
+  return rep;
+}
+
+function display(id){
+  console.log(id);
+  let element= document.getElementById(id);
+  element.style["display"]="block";
 }
 
 function main(){
   activer_onglet();
   let path = sessionStorage.getItem("Path");
-  lunch_visualisation(path);
+  if (path!="null" && ( path.search(".fasta")==-1)){
+    let a = document.getElementById("the_file");
+    a.href=path;
+    let button = document.getElementById("my_mol");
+    button.addEventListener("click",function(){
+      add(path);
+    });
+    button.style["display"]="inline";
+    for (element in path_elements){
+      display(path_elements[element]);
+    };
+  }
+  let plus = document.getElementById("plus").addEventListener("click",addProt)
+  let clear = document.getElementById("clear").addEventListener("click",function(){
+    stage.removeAllComponents();
+  });
+  let spin = document.getElementById("spin").addEventListener("click",function(){
+    stage.setSpin((!(bool_spin)));
+    bool_spin=(!(bool_spin));
+  });
   sessionStorage.setItem("Path",null);
 }
+
+var stage;
+var bool_spin=false;
+stage = new NGL.Stage("visualisation");
+stage.viewer.container.addEventListener("dblclick", function (){
+    stage.toggleFullscreen();
+});
+path_elements=["controls1","controls2","controls3","div_path"];
 
 window.onload=main;
