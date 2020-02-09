@@ -1,8 +1,7 @@
-{{% extends "proteo/base.html" %}
+{% extends "proteo/base.html" %}
 
 {% block content %}
-
-<BODY onload="init()" style="background-color: #262626;">
+<body onload="init()" style="background-color: #262626;">
   <div class="subdiv">
   <h1 style="text-align: center;color:#333;">Welcome in the 2D module !</h1>
   <div class="inputdiv" style="width:99%; margin:auto;margin-bottom: 2%;">
@@ -68,16 +67,11 @@
     viewer.update();
   }
 
-  function loadModel() {
-    var pdb_inp = document.getElementById("PDBinp").value;
-    console.log(pdb_inp);
-    viewer.replaceSceneFromUrl(pdb_inp+'.obj');
-    viewer.update();
-  }
+  function loadModel(){};
   </script>
   <script type="text/javascript">
   let two=document.getElementById("two");
   two.classList.add("activated");
 </script>
-</BODY>
+</body>
 {% endblock %}
