@@ -66,7 +66,7 @@ function display(id){
 function main(){
   activer_onglet();
   let path = sessionStorage.getItem("Path");
-  if (path!="null" && ( path.search(".fasta")==-1)){
+  if ( path!=null && path!="null" && ( path.search(".fasta")==-1)){
     let a = document.getElementById("the_file");
     a.href=path;
     let button = document.getElementById("my_mol");
